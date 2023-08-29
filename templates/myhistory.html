@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th class ="text-middle">運動項目</th>
+                <th class ="text-middle">地點</th>
+                <th class ="text-middle">日期</th>
+                <th class ="text-middle">時間</th>
+                <th class ="text-middle">費用</th>
+                <th class ="text-middle">程度</th>
+                <th class ="text-middle">需求人數</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- TODO: Loop through the database entries to display them in this table -->
+            {% for activity in activities %}
+                <tr>
+                    <td class ="text-middle">{{activity.type}}</td>
+                    <td class ="text-middle">{{activity.location}}</td>
+                    <td class ="text-middle">{{activity.date}}</td>
+                    <td class ="text-middle">{{activity.start_time}}~{{activity.end_time}}</td>
+                    <td class ="text-middle">{{activity.price}}</td>
+                    <td class ="text-middle">{{activity.level}}</td>
+                    <td class ="text-middle">{{activity.participants}}</td>
+                    <td class="button">
+                        <button class="delete-button" data-id="{{ activity.id }}">刪除</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteButtons = document.querySelectorAll(".delete-button");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const activityId = button.getAttribute("data-id");
+                if (confirm("確定要刪除這筆活動嗎？")) {
+                    deleteActivity(activityId);
+                }
+            });
+        });
+
+        function deleteActivity(activityId) {
+            const url = "/delete_activity"; // Flask 路由
+            const data = { activity_id: activityId };
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                // 刷新頁面或其他後續處理
+                location.reload();
+            })
+            .catch(error => {
+                console.error("刪除失敗:", error);
+                // 處理錯誤情況
+            });
+        }
+    });
+</script>
+
+{% endblock %}

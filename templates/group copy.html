@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container">
+    <div class="header">
+        <h1>創建活動</h1>
+    </div>
+    <form action="/group" method="post">
+        <div class="section">
+            <label class="input-group-text" for="sport">球類：</label>
+            <select class="form-select" id="sport" name="sport" required>
+                <option value="" selected disabled>選擇...</option>
+                <option value="足球">足球</option>
+                <option value="籃球">籃球</option>
+                <option value="排球">排球</option>
+                <option value="網球">網球</option>
+            </select>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="date">日期：</label>
+            <input type="date" id="date" name="date" min=today required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="start_time">開始時間：</label>
+            <input type="time" id="start_time" name="start_time" required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="end_time">結束時間：</label>
+            <input type="time" id="end_time" name="end_time" required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="location">地點：</label>
+            <input type="text" id="location" name="location" autocomplete required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="level">程度：</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="beginner" name="level" value="初學者" required>
+                <label class="form-check-label" for="beginner">初學者</label>
+            </div>
+            
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="intermediate" name="level" value="中級" required>
+                <label for="intermediate">中級</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="advanced" name="level" value="高級" required>
+                <label for="advanced">高級</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="price">費用：</label>
+            <input type="text" id="price" name="price" required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="participants">人數：</label>
+            <input type="number" id="participants" name="participants" min="1" required>
+        </div>
+
+        <div class="section">
+            <label class="input-group-text" for="remark">備註：</label>
+            <input type="text" id="remark" name="remark">
+        </div>
+
+        <div class="section">
+            <input type="submit" value="提交報名" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+{% endblock %}
