@@ -14,7 +14,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     text-align: center;
-    width: 90%;
+    width: 45%;
 }
 
 .header {
@@ -55,12 +55,36 @@ button, input[type="submit"] {
     vertical-align: middle;
 }
 
-input[type="text"], input[type="number"] {
-    line-height: 1.8;
-    width: 25%;
+.input-group-text{
+    width: 15%;
 }
 
-input[type="text"]:hover, input[type="number"]:hover {
+input[type="radio"] {
+    vertical-align: middle;
+}
+
+
+input[type="text"], input[type="number"] {
+    line-height: 1.8;
+    width: 10%;
+}
+
+input[type="text"], input[type="text"] {
+    line-height: 1.8;
+    width: 85%;
+}
+
+input[type="date"], input[type="number"] {
+    line-height: 1.8;
+    width: 85%;
+}
+
+input[type="time"], input[type="number"] {
+    line-height: 1.8;
+    width: 85%;
+}
+
+input[type="text"]:hover, input[type="number"]:hover, input[type="date"]:hover, input[type="time"]:hover {
     background-color: #f5f5f5;
     transition: color 2s ease-in-out, background-color 0.15s ease-in-out;
 }

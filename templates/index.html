@@ -1,50 +1,24 @@
-<!DOCTYPE html>
+{% extends "layout.html" %}
 
-<html lang="en">
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-        <link href="/static/styles.css" rel="stylesheet">
-        <title>test</title>
-    </head>
-    <body>
-        <div class="header">
-            <h1>test</h1>
-        </div>
-        <div class="container">
-            <div class="section">
+{% block main %}
 
-                <h2>Add a Birthday</h2>
-                <!-- TODO: Create a form for users to submit a name, a month, and a day -->
-                <form action ="/" method="post">
-                    <input autocomplete="off" autofocus name="name" placeholder="Name" type = "text">
-                    <input autocomplete="off"  name="month" placeholder="Month" type = "text">
-                    <input autocomplete="off"  name="day" placeholder="Day" type = "text">
-                    <button type ="submit">Add Birthday</button>
-                </form>
-            </div>
+    <div >
+        <h1>打球?</h1>
+        <h3>在這找到你的夥伴們!</h3>
+    </div>
 
-            <div class="section">
+{% endblock %}
 
-                <h2>All Birthdays</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Birthday</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- TODO: Loop through the database entries to display them in this table -->
-                        {% for birthday in birthdays %}
-                            <tr>
-                                <td>{{birthday.name}}</td>
-                                <td>{{birthday.month}}/{{birthday.day}}</td>
-
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </body>
-</html>
+CREATE TABLE activities (
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+type TEXT NOT NULL,
+date TEXT NOT NULL, 
+start_time TEXT NOT NULL, 
+end_time TEXT NOT NULL, 
+location TEXT NOT NULL,
+level TEXT NOT NULL,
+price TEXT, 
+participants INTEGER NOT NULL,
+remark TEXT, user_id INTEGER,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
