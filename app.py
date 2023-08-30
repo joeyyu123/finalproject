@@ -158,8 +158,13 @@ def find():
 @app.route("/myhistory")
 def myhistory():
     userid = session.get("user_id")
-    activities = db.execute("SELECT a.* FROM activities a INNER JOIN users u ON a.user_id = u.id WHERE a.date >= date('now') AND u.id = ? ORDER BY a.date DESC", userid)
-    return render_template("myhistory.html", activities=activities)
+    
+    # 獲取用戶開團和報名的紀錄
+    created_activities = db.execute("SELECT * FROM activities WHERE user_id = ? AND date >= date('now') ORDER BY date DESC", userid)
+    signed_up_activities = db.execute("SELECT a.*, s.participants AS signup_participants FROM activities a INNER JOIN signups s ON a.id = s.activity_id WHERE s.user_id = ? AND a.date >= date('now') ORDER BY a.date DESC", userid)
+    
+    
+    return render_template("myhistory.html", created_activities=created_activities,signed_up_activities=signed_up_activities)
 
 # 刪除
 @app.route("/delete_activity", methods=["POST"])

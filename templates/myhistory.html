@@ -3,6 +3,7 @@
 {% block main %}
 
 <div>
+    <h2>您的開團紀錄</h2>
     <table>
         <thead>
             <tr>
@@ -13,20 +14,19 @@
                 <th class ="text-middle">費用</th>
                 <th class ="text-middle">程度</th>
                 <th class ="text-middle">需求人數</th>
-
             </tr>
         </thead>
         <tbody>
-            <!-- TODO: Loop through the database entries to display them in this table -->
-            {% for activity in activities %}
+            <!-- 遍歷用戶的開團紀錄 -->
+            {% for activity in created_activities %}
                 <tr>
-                    <td class ="text-middle">{{activity.type}}</td>
-                    <td class ="text-middle">{{activity.location}}</td>
-                    <td class ="text-middle">{{activity.date}}</td>
-                    <td class ="text-middle">{{activity.start_time}}~{{activity.end_time}}</td>
-                    <td class ="text-middle">{{activity.price}}</td>
-                    <td class ="text-middle">{{activity.level}}</td>
-                    <td class ="text-middle">{{activity.participants}}</td>
+                    <td class="text-middle">{{ activity.type }}</td>
+                    <td class="text-middle">{{ activity.location }}</td>
+                    <td class="text-middle">{{ activity.date }}</td>
+                    <td class="text-middle">{{ activity.start_time }}~{{ activity.end_time }}</td>
+                    <td class="text-middle">{{ activity.price }}</td>
+                    <td class="text-middle">{{ activity.level }}</td>
+                    <td class="text-middle">{{ activity.participants }}</td>
                     <td class="button">
                         <button class="delete-button" data-id="{{ activity.id }}">刪除</button>
                     </td>
@@ -35,6 +35,38 @@
         </tbody>
     </table>
 </div>
+
+<div>
+    <h2>您的報名紀錄</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class ="text-middle">運動項目</th>
+                <th class ="text-middle">地點</th>
+                <th class ="text-middle">日期</th>
+                <th class ="text-middle">時間</th>
+                <th class ="text-middle">費用</th>
+                <th class ="text-middle">程度</th>
+                <th class ="text-middle">報名人數</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 遍歷用戶的報名紀錄 -->
+            {% for activity in signed_up_activities %}
+                <tr>
+                    <td class="text-middle">{{ activity.type }}</td>
+                    <td class="text-middle">{{ activity.location }}</td>
+                    <td class="text-middle">{{ activity.date }}</td>
+                    <td class="text-middle">{{ activity.start_time }}~{{ activity.end_time }}</td>
+                    <td class="text-middle">{{ activity.price }}</td>
+                    <td class="text-middle">{{ activity.level }}</td>
+                    <td class="text-middle">{{ activity.signup_participants }}</td>  <!-- 使用報名紀錄中的參與人數 -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
