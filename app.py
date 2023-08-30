@@ -176,3 +176,31 @@ def delete_activity():
         return jsonify({"message": "删除失败", "error": str(e)}), 500
 
 
+@app.route("/apply/<int:activity_id>", methods=["GET", "POST"])
+def apply(activity_id):
+    if request.method == "POST":
+        userid = session.get("user_id")
+        name = request.form.get("name")
+        contact = request.form.get("contact")
+        participants = int(request.form.get("participants"))  # 注意將字符串轉換為整數
+        remark = request.form.get("remark")
+
+        # 獲取活動資訊
+        activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)[0]
+        remaining_participants = int(activity["participants"]) - participants
+
+        if remaining_participants < 0:
+            flash("報名人數超過剩餘名額。")
+            return redirect(f"/apply/{activity_id}")
+        
+        # 更新活動需求人數
+        db.execute("UPDATE activities SET participants = ? WHERE id = ?", remaining_participants, activity_id)
+
+        # 插入報名數據
+        db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)", activity_id, name, contact, userid, participants, remark)
+
+        flash("報名成功！感謝您的參與。")
+        return redirect("/find")
+    else:
+        activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
+        return render_template("apply.html", activity=activity[0])

@@ -12,7 +12,7 @@
                 <th class ="text-middle">時間</th>
                 <th class ="text-middle">費用</th>
                 <th class ="text-middle">程度</th>
-                <th class ="text-middle">需求人數</th>
+                <th class ="text-middle">名額</th>
 
             </tr>
         </thead>
@@ -27,7 +27,13 @@
                     <td class ="text-middle">{{activity.price}}</td>
                     <td class ="text-middle">{{activity.level}}</td>
                     <td class ="text-middle">{{activity.participants}}</td>
-                    <td class="text-middle"><a href="/apply/{{activity.id}}" class="btn btn-primary">報名</a></td>
+                    <td class="text-middle">
+                        {% if activity.participants > 0 %}
+                            <a href="/apply/{{activity.id}}" class="btn btn-primary">報名</a>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>名額已滿</button>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
