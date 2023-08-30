@@ -55,7 +55,8 @@ def apology(message, code=400):
 # 主頁
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    activities = db.execute("SELECT * FROM activities WHERE date >= date('now') ORDER BY date DESC")
+    return render_template("index.html",activities=activities)
 
 # 登入路由
 @app.route("/login", methods=["GET", "POST"])
@@ -129,6 +130,7 @@ def register():
 
 # 活動創建
 @app.route("/group", methods=["GET", "POST"])
+@login_required
 def group():
     if request.method == "POST":
         userid = session.get("user_id")
@@ -156,6 +158,7 @@ def find():
 
 # 查看用戶歷史紀錄
 @app.route("/myhistory")
+@login_required
 def myhistory():
     userid = session.get("user_id")
     
@@ -168,6 +171,7 @@ def myhistory():
 
 # 刪除
 @app.route("/delete_activity", methods=["POST"])
+@login_required
 def delete_activity():
     try:
         activity_id = request.json.get("activity_id")
@@ -182,6 +186,7 @@ def delete_activity():
 
 
 @app.route("/apply/<int:activity_id>", methods=["GET", "POST"])
+@login_required
 def apply(activity_id):
     if request.method == "POST":
         userid = session.get("user_id")
@@ -209,3 +214,10 @@ def apply(activity_id):
     else:
         activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
         return render_template("apply.html", activity=activity[0])
+    
+@app.route("/view_signups/<int:activity_id>")
+@login_required
+def view_signups(activity_id):
+    activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
+    signups = db.execute("SELECT * FROM signups WHERE activity_id = ?", activity_id)
+    return render_template("view_signups.html", activity=activity[0], signups=signups)

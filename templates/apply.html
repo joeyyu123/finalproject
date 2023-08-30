@@ -4,18 +4,41 @@
 
 <div class="container">
     <h2>報名參加活動</h2>
-    <p>以下是您選擇報名的活動詳細信息：</p>
+    <p>以下是您選擇報名的活動：</p>
 
-    <ul>
-        <li>活動類型：{{ activity.type }}</li>
-        <li>地點：{{ activity.location }}</li>
-        <li>日期：{{ activity.date }}</li>
-        <li>時間：{{ activity.start_time }} - {{ activity.end_time }}</li>
-        <li>費用：{{ activity.price }}</li>
-        <li>程度：{{ activity.level }}</li>
-        <li>需求人數：{{ activity.participants }}</li>
-    </ul>
-
+    
+        <table>
+            <tr>
+                <td>活動類型：</td>
+                <td>{{ activity.type }}</td>
+            </tr>
+            <tr>
+                <td>地點：</td>
+                <td>{{ activity.location }}</td>
+            </tr>
+                <td>日期：</td>
+                <td>{{ activity.date }}</td>
+            <tr>
+            </tr>
+                <td>時間：</td>
+                <td>{{ activity.start_time }} - {{ activity.end_time }}</td>
+            <tr>
+                <td>費用：</td>
+                <td>{{ activity.price }}</td>
+            </tr>
+            <tr>
+                <td>程度：</td>
+                <td>{{ activity.level }}</td>
+            </tr>
+            <tr>
+                <td>需求人數：</td>
+                <td>{{ activity.participants }}</td>
+            </tr>
+        
+        </table>
+    
+</div>
+<div class="container">
     <p>請填寫以下信息報名參加：</p>
     <form action="/apply/{{ activity.id }}" method="post">
         <!-- 在此添加您的報名表單字段 -->

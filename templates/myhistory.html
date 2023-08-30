@@ -2,7 +2,7 @@
 
 {% block main %}
 
-<div>
+<div class="section">
     <h2>您的開團紀錄</h2>
     <table>
         <thead>
@@ -28,6 +28,7 @@
                     <td class="text-middle">{{ activity.level }}</td>
                     <td class="text-middle">{{ activity.participants }}</td>
                     <td class="button">
+                        <a href="/view_signups/{{ activity.id }}">查看報名</a>
                         <button class="delete-button" data-id="{{ activity.id }}">刪除</button>
                     </td>
                 </tr>
@@ -36,7 +37,7 @@
     </table>
 </div>
 
-<div>
+<div class="section">
     <h2>您的報名紀錄</h2>
     <table>
         <thead>

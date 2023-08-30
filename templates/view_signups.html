@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div>
+    <h3>活動資訊：</h3>
+    <div class="container">
+        <table>
+            <tbody>
+                <tr>
+                    <td>活動類型：</td>
+                    <td>{{ activity.type }}</td>
+                </tr>
+                <tr>
+                    <td>地點：</td>
+                    <td>{{ activity.location }}</td>
+                </tr>
+                <tr>
+                    <td>日期：</td>
+                    <td>{{ activity.date }}</td>
+                </tr>
+                <tr>
+                    <td>時間：</td>
+                    <td>{{ activity.start_time }} - {{ activity.end_time }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>已報名參與者：</h3>
+    
+    <div class="section">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>聯絡方式</th>
+                    <th>報名人數</th>
+                    <th>備註</th>
+                    <!-- 其他報名者相關的表頭 -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for signup in signups %}
+                    <tr>
+                        <td>{{ signup.name }}</td>
+                        <td>{{ signup.contact }}</td>
+                        <td>{{ signup.participants }}</td>
+                        <td>{{ signup.markup }}</td>
+
+                        <!-- 其他報名者相關的表格內容 -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -7,18 +7,35 @@
         <h3>在這找到你的夥伴們!</h3>
     </div>
 
-{% endblock %}
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th class ="text-middle">運動項目</th>
+                    <th class ="text-middle">地點</th>
+                    <th class ="text-middle">日期</th>
+                    <th class ="text-middle">時間</th>
+                    <th class ="text-middle">費用</th>
+                    <th class ="text-middle">程度</th>
+                    <th class ="text-middle">剩餘名額</th>
+    
+                </tr>
+            </thead>
+            <tbody>
+                <!-- TODO: Loop through the database entries to display them in this table -->
+                {% for activity in activities %}
+                    <tr>
+                        <td class ="text-middle">{{activity.type}}</td>
+                        <td class ="text-middle">{{activity.location}}</td>
+                        <td class ="text-middle">{{activity.date}}</td>
+                        <td class ="text-middle">{{activity.start_time}}~{{activity.end_time}}</td>
+                        <td class ="text-middle">{{activity.price}}</td>
+                        <td class ="text-middle">{{activity.level}}</td>
+                        <td class ="text-middle">{{activity.participants}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-CREATE TABLE activities (
-id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-type TEXT NOT NULL,
-date TEXT NOT NULL, 
-start_time TEXT NOT NULL, 
-end_time TEXT NOT NULL, 
-location TEXT NOT NULL,
-level TEXT NOT NULL,
-price TEXT, 
-participants INTEGER NOT NULL,
-remark TEXT, user_id INTEGER,
-FOREIGN KEY (user_id) REFERENCES users(id)
-);
+{% endblock %}
