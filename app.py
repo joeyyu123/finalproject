@@ -5,6 +5,7 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -25,7 +26,8 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
-            return redirect("/")
+            
+            return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -203,14 +205,26 @@ def apply(activity_id):
             flash("報名人數超過剩餘名額。")
             return redirect(f"/apply/{activity_id}")
         
-        # 更新活動需求人數
-        db.execute("UPDATE activities SET participants = ? WHERE id = ?", remaining_participants, activity_id)
+        db.execute("BEGIN")
 
-        # 插入報名數據
-        db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)", activity_id, name, contact, userid, participants, remark)
+        try:
+            # 更新活動需求人數
+            db.execute("UPDATE activities SET participants = ? WHERE id = ?", remaining_participants, activity_id)
 
-        flash("報名成功！感謝您的參與。")
-        return redirect("/find")
+            # 插入報名數據
+            db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)", activity_id, name, contact, userid, participants, remark)
+
+            # 提交事務
+            db.execute("COMMIT")
+
+            flash("報名成功！感謝您的參與。")
+            return redirect("/find")
+        except Exception as e:
+            # 回滾事務
+            db.execute("ROLLBACK")
+
+            flash("報名失敗。請稍後再試。")
+            return redirect(f"/apply/{activity_id}")
     else:
         activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
         return render_template("apply.html", activity=activity[0])
