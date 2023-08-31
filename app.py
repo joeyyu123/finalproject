@@ -184,7 +184,8 @@ def delete_activity():
         return jsonify({"message": "刪除成功"}), 200
 
     except Exception as e:
-        return jsonify({"message": "删除失败", "error": str(e)}), 500
+        return jsonify({"message": "删除失敗", "error": str(e)}), 500
+    
 
 
 @app.route("/apply/<int:activity_id>", methods=["GET", "POST"])

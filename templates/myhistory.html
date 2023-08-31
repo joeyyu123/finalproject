@@ -28,7 +28,7 @@
                     <td class="text-middle">{{ activity.level }}</td>
                     <td class="text-middle">{{ activity.participants }}</td>
                     <td class="button">
-                        <a href="/view_signups/{{ activity.id }}">查看報名</a>
+                        <a href="/view_signups/{{ activity.id }}">查看報名狀況</a>
                         <button class="delete-button" data-id="{{ activity.id }}">刪除</button>
                     </td>
                 </tr>
@@ -62,6 +62,9 @@
                     <td class="text-middle">{{ activity.price }}</td>
                     <td class="text-middle">{{ activity.level }}</td>
                     <td class="text-middle">{{ activity.signup_participants }}</td>  <!-- 使用報名紀錄中的參與人數 -->
+                    <td class="text-middle">
+                        <button class="cancel-signup-button" data-id="{{ activity.id }}">取消報名</button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -101,6 +104,42 @@
             })
             .catch(error => {
                 console.error("刪除失敗:", error);
+                // 處理錯誤情況
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const cancelSignupButtons = document.querySelectorAll(".cancel-signup-button");
+
+        cancelSignupButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const activityId = button.getAttribute("data-id");
+                if (confirm("確定要取消報名這筆活動嗎？")) {
+                    cancelSignup(activityId);
+                }
+            });
+        });
+
+        function cancelSignup(activityId) {
+            const url = "/cancel_signup"; // 設定 Flask 路由，用於取消報名
+            const data = { activity_id: activityId };
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+                // 刷新頁面或其他後續處理
+                location.reload();
+            })
+            .catch(error => {
+                console.error("取消報名失敗:", error);
                 // 處理錯誤情況
             });
         }
