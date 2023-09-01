@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="section">
+    <h2>您的報名紀錄</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class ="text-middle">運動項目</th>
+                <th class ="text-middle">地點</th>
+                <th class ="text-middle">日期</th>
+                <th class ="text-middle">時間</th>
+                <th class ="text-middle">費用</th>
+                <th class ="text-middle">程度</th>
+                <th class ="text-middle">報名人數</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 遍歷用戶的報名紀錄 -->
+            {% for activity in signed_up_activities %}
+                <tr>
+                    <td class="text-middle">{{ activity.type }}</td>
+                    <td class="text-middle">{{ activity.location }}</td>
+                    <td class="text-middle">{{ activity.date }}</td>
+                    <td class="text-middle">{{ activity.start_time }}~{{ activity.end_time }}</td>
+                    <td class="text-middle">{{ activity.price }}</td>
+                    <td class="text-middle">{{ activity.level }}</td>
+                    <td class="text-middle">{{ activity.signup_participants }}</td>  <!-- 使用報名紀錄中的參與人數 -->
+                    <td class="text-middle">
+                        <button class="cancel-signup-button" data-id="{{ activity.id }}" data-participants="{{ activity.signup_participants }}" data-signup-id="{{activity.signup_id}}">取消報名</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const cancelSignupButtons = document.querySelectorAll(".cancel-signup-button");
+        
+            cancelSignupButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const activityId = button.getAttribute("data-id");
+                    const participants = button.getAttribute("data-participants"); // 取得報名人數
+                    const signup_Id = button.getAttribute("data-signup-id");
+                    if (confirm("確定要取消報名這筆活動嗎？")) {
+                        cancelSignup(activityId, participants, signup_Id); // 將報名人數一同傳送給取消報名函數
+                    }
+                });
+            });
+        
+            function cancelSignup(activityId, participants, signup_Id) {
+                const url = "/cancel_signup";
+                const data = { activity_id: activityId, participants: participants, signup_id: signup_Id }; // 傳送報名人數到後端
+        
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error("取消報名失敗:", error);
+                });
+            }
+    })
+</script>
+
+
+{% endblock %}

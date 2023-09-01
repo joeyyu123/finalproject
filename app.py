@@ -147,7 +147,7 @@ def group():
         remark = request.form.get("remark")
         
         db.execute("INSERT INTO activities(type, date, start_time, end_time, location, level, price, participants, remark, user_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", type, date, start_time, end_time, location, level, price, participants, remark, userid)
-        
+        flash("開團成功！")
         return render_template("group.html")
     
     return render_template("group.html")
@@ -159,17 +159,26 @@ def find():
     return render_template("find.html", activities=activities)
 
 # 查看用戶歷史紀錄
-@app.route("/myhistory")
+@app.route("/created_history")
 @login_required
-def myhistory():
+def created_history():
     userid = session.get("user_id")
     
     # 獲取用戶開團和報名的紀錄
-    created_activities = db.execute("SELECT * FROM activities WHERE user_id = ? AND date >= date('now') ORDER BY date DESC", userid)
-    signed_up_activities = db.execute("SELECT a.*, s.participants AS signup_participants FROM activities a INNER JOIN signups s ON a.id = s.activity_id WHERE s.user_id = ? AND a.date >= date('now') ORDER BY a.date DESC", userid)
+    created_activities = db.execute("SELECT * FROM activities WHERE user_id = ? AND date >= date('now') ORDER BY date DESC", userid)    
+    
+    return render_template("created_history.html", created_activities=created_activities)
+
+# 查看用戶歷史紀錄
+@app.route("/applied_history")
+@login_required
+def applied_history():
+    userid = session.get("user_id")
+    
+    signed_up_activities = db.execute("SELECT a.*, s.participants AS signup_participants, s.id AS signup_id FROM activities a INNER JOIN signups s ON a.id = s.activity_id WHERE s.user_id = ? AND a.date >= date('now') ORDER BY a.date DESC", userid)
     
     
-    return render_template("myhistory.html", created_activities=created_activities,signed_up_activities=signed_up_activities)
+    return render_template("applied_history.html", signed_up_activities=signed_up_activities)
 
 # 刪除
 @app.route("/delete_activity", methods=["POST"])
@@ -185,6 +194,39 @@ def delete_activity():
 
     except Exception as e:
         return jsonify({"message": "删除失敗", "error": str(e)}), 500
+    
+# 取消報名
+@app.route("/cancel_signup", methods=["POST"])
+@login_required
+def cancel_signup():
+    try:
+        activity_id = request.json.get("activity_id")
+        participants = request.json.get("participants") # 獲取報名人數
+        
+        if activity_id is None or participants is None:
+            return jsonify({"message": "無效的請求"}), 400
+        
+        activity = db.execute("SELECT participants FROM activities WHERE id = ?", activity_id)
+        if not activity:
+            return jsonify({"message": "找不到該活動"}), 404
+        
+
+        current_participants = activity[0]["participants"]
+        
+        # 根據報名人數進行修正
+        new_participants = int(current_participants) + int(participants)
+        
+
+        db.execute("UPDATE activities SET participants = ? WHERE id = ?", new_participants, activity_id)
+
+        #在取消報名成功後，刪除相關的報名紀錄
+        signup_id = request.json.get("signup_id")
+        db.execute("DELETE FROM signups WHERE id = ?", signup_id)
+        
+        return jsonify({"message": "已取消報名"}), 200
+
+    except Exception as e:
+        return jsonify({"message": "取消失敗", "error": str(e)}), 500
     
 
 

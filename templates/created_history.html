@@ -37,39 +37,7 @@
     </table>
 </div>
 
-<div class="section">
-    <h2>您的報名紀錄</h2>
-    <table>
-        <thead>
-            <tr>
-                <th class ="text-middle">運動項目</th>
-                <th class ="text-middle">地點</th>
-                <th class ="text-middle">日期</th>
-                <th class ="text-middle">時間</th>
-                <th class ="text-middle">費用</th>
-                <th class ="text-middle">程度</th>
-                <th class ="text-middle">報名人數</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- 遍歷用戶的報名紀錄 -->
-            {% for activity in signed_up_activities %}
-                <tr>
-                    <td class="text-middle">{{ activity.type }}</td>
-                    <td class="text-middle">{{ activity.location }}</td>
-                    <td class="text-middle">{{ activity.date }}</td>
-                    <td class="text-middle">{{ activity.start_time }}~{{ activity.end_time }}</td>
-                    <td class="text-middle">{{ activity.price }}</td>
-                    <td class="text-middle">{{ activity.level }}</td>
-                    <td class="text-middle">{{ activity.signup_participants }}</td>  <!-- 使用報名紀錄中的參與人數 -->
-                    <td class="text-middle">
-                        <button class="cancel-signup-button" data-id="{{ activity.id }}">取消報名</button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+
 
 
 <script>
@@ -84,6 +52,8 @@
                 }
             });
         });
+
+        
 
         function deleteActivity(activityId) {
             const url = "/delete_activity"; // Flask 路由
@@ -108,42 +78,7 @@
             });
         }
     });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const cancelSignupButtons = document.querySelectorAll(".cancel-signup-button");
-
-        cancelSignupButtons.forEach(button => {
-            button.addEventListener("click", function() {
-                const activityId = button.getAttribute("data-id");
-                if (confirm("確定要取消報名這筆活動嗎？")) {
-                    cancelSignup(activityId);
-                }
-            });
-        });
-
-        function cancelSignup(activityId) {
-            const url = "/cancel_signup"; // 設定 Flask 路由，用於取消報名
-            const data = { activity_id: activityId };
-
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(result => {
-                alert(result.message);
-                // 刷新頁面或其他後續處理
-                location.reload();
-            })
-            .catch(error => {
-                console.error("取消報名失敗:", error);
-                // 處理錯誤情況
-            });
-        }
-    });
+    
 </script>
 
 {% endblock %}
