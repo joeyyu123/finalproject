@@ -1,11 +1,30 @@
 body {
-    background-color: #fff;
+    background-color: #ffffff;
     color: #212529;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     margin-top: 60px;
     text-align: left;
+}
+
+footer {
+    
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    
+}
+
+footer p {
+    margin-top:auto;
+    margin-bottom: auto;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
 }
 
 .container {
@@ -47,10 +66,7 @@ body {
     transition: color 2s ease-in-out, background-color 0.15s ease-in-out;
 }
 
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 48px;
-}
+
 
 button, input[type="submit"] {
     background-color: #d9edff;
@@ -134,7 +150,7 @@ tbody tr:nth-of-type(odd) {
     background-color: rgb(179, 208, 255, 0.3)
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1500px) {
     .input-group-text, input[type=text], input[type=submit], input[type=number],input[type=date], input[type=time], textarea[type="remark"] {
       width: 100%;
       margin-top: 1.8;

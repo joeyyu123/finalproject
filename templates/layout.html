@@ -19,6 +19,7 @@
     </head>
 
     <body>
+        
         <nav class="bg-light border navbar navbar-expand-md navbar-light fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/"><span class="blue">打球去</a>
@@ -40,7 +41,7 @@
                         </ul>
                     {% else %}
                    
-                        <ul class="navbar-nav mr-auto">
+                        <ul class="navbar-nav me-auto mt-2">
                           <li class="nav-item active">
                             <a class="nav-link" href="/find">想打球</a>
                           </li>
@@ -67,5 +68,8 @@
             {% block main %}{% endblock %}
         </main>
     </body>
-
+    <footer class= "fixed-bottom">
+        <p>Copyright © 2023 打球去 All Rights Reserved. </p>
+        
+    </footer>
 </html>

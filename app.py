@@ -39,21 +39,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# apology
-def apology(message, code=400):
-    """Render message as an apology to user."""
-    def escape(s):
-        """
-        Escape special characters.
-
-        https://github.com/jacebrowning/memegen#special-characters
-        """
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
-
 # 主頁
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -63,29 +48,32 @@ def index():
 # 登入路由
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # 清除任何用户ID
+    # 清除任何用戶ID
     session.clear()
 
     if request.method == "POST":
-        # 确保提交了用户名
+        # 確認帳號已輸入
         if not request.form.get("username"):
-            return apology("必須提供用戶名", 403)
+            alert = "請輸入用戶名。"
+            return render_template("login.html", alert=alert)
 
-        # 确保提交了密码
+        # 確認密碼已輸入
         elif not request.form.get("password"):
-            return apology("必須輸入密碼", 403)
+            alert = "請輸入密碼。"
+            return render_template("login.html", alert=alert)
 
-        # 查询数据库获取用户名
+        # 查詢資料庫
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # 确保用户名存在且密码正确
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("無效的用戶名或密碼", 403)
+            alert = "無效的用戶名或密碼"
+            return render_template("login.html", alert=alert)
 
-        # 记住已登录用户
+        # 記住已經登入的用戶
         session["user_id"] = rows[0]["id"]
 
-        # 重定向用户到主页
+        # 重新整理網頁
         return redirect("/")
 
     else:
