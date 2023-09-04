@@ -69,17 +69,27 @@ button, input[type="submit"] {
     width: 15%;
 }
 
+.form-check-inline {
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+    width:25%;
+}
+
 input[type="radio"] {
     vertical-align: middle;
 }
 
 
-input[type="text"], input[type="number"] {
+input[type="number"] {
     line-height: 1.8;
     width: 10%;
 }
 
-input[type="text"], input[type="text"] {
+input[type="text"] {
     line-height: 1.8;
     width: 85%;
 }
@@ -92,6 +102,13 @@ input[type="date"], input[type="number"] {
 input[type="time"], input[type="number"] {
     line-height: 1.8;
     width: 85%;
+}
+
+textarea[type="remark"] {
+    line-height: 3;
+    width: 85%;
+    text-align: left;
+    
 }
 
 input[type="text"]:hover, input[type="number"]:hover, input[type="date"]:hover, input[type="time"]:hover {
@@ -117,3 +134,9 @@ tbody tr:nth-of-type(odd) {
     background-color: rgb(179, 208, 255, 0.3)
 }
 
+@media screen and (max-width: 600px) {
+    .input-group-text, input[type=text], input[type=submit], input[type=number],input[type=date], input[type=time], textarea[type="remark"] {
+      width: 100%;
+      margin-top: 1.8;
+    }
+  }
