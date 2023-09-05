@@ -297,3 +297,6 @@ def view_signups(activity_id):
     activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
     signups = db.execute("SELECT * FROM signups WHERE activity_id = ?", activity_id)
     return render_template("view_signups.html", activity=activity[0], signups=signups)
+
+if __name__ == "__main__": #如果以主程式運行
+    app.run() #啟動伺服器

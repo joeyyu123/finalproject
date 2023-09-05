@@ -29,9 +29,9 @@
                     <td class="text-middle">{{ activity.level }}</td>
                     <td class="text-middle">{{ activity.participants }}</td>
                     <td class="text-middle">{{ activity.applicants }}</td>
-                    <td class="button">
-                        <button class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">報名狀況</button><br>
-                        <button class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">編輯</button><br>
+                    <td class="text-middle">
+                        <a class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">報名狀況</a><br>
+                        <a class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">編輯</a><br>
                         <button class="btn btn-outline-danger" data-id="{{ activity.id }}">刪除</button>
                     </td>
                 </tr>
@@ -45,7 +45,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const deleteButtons = document.querySelectorAll(".delete-button");
+        const deleteButtons = document.querySelectorAll(".btn-outline-danger");
 
         deleteButtons.forEach(button => {
             button.addEventListener("click", function() {
