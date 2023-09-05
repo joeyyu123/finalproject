@@ -141,9 +141,34 @@ def group():
     return render_template("group.html")
 
 # 檢視
-@app.route("/find")
+@app.route("/find", methods=["GET"])
 def find():
-    activities = db.execute("SELECT * FROM activities WHERE date >= date('now') ORDER BY date DESC")
+    # 獲取用戶提交的篩選條件
+    date = request.args.get("date")
+    sport = request.args.get("sport")
+
+    # 構建SQL查詢
+    query = "SELECT * FROM activities WHERE date >= date('now')"
+
+    # 初始化參數字典
+    params = {}
+
+    # 添加日期篩選
+    if date:
+        query += " AND date = :date"
+        params["date"] = date
+
+    # 添加運動類型篩選
+    if sport:
+        query += " AND type = :sport"
+        params["sport"] = sport
+
+    # 日期排序
+    query += " ORDER BY date"
+
+    # 執行SQL查詢
+    activities = db.execute(query, **params)
+
     return render_template("find.html", activities=activities)
 
 # 查看用戶歷史紀錄
@@ -153,7 +178,7 @@ def created_history():
     userid = session.get("user_id")
     
     # 獲取用戶開團和報名的紀錄
-    created_activities = db.execute("SELECT * FROM activities WHERE user_id = ? AND date >= date('now') ORDER BY date DESC", userid)    
+    created_activities = db.execute("SELECT * FROM activities WHERE user_id = ? AND date >= date('now') ORDER BY date", userid)    
     
     return render_template("created_history.html", created_activities=created_activities)
 
@@ -176,8 +201,12 @@ def delete_activity():
         activity_id = request.json.get("activity_id")
         if activity_id is None:
             return jsonify({"message": "無效的請求"}), 400
+        # 先刪除與該活動相關的報名紀錄
+        db.execute("DELETE FROM signups WHERE activity_id = ?", activity_id)
 
+        # 再刪除該活動
         db.execute("DELETE FROM activities WHERE id = ?", activity_id)
+
         return jsonify({"message": "刪除成功"}), 200
 
     except Exception as e:

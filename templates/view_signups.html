@@ -41,16 +41,18 @@
                 </tr>
             </thead>
             <tbody>
+                {% if not signups %}
+                    <tr><td colspan="4">目前還沒有人報名 &#x1F62D;</td></tr>
+                {% else %}
                 {% for signup in signups %}
-                    <tr>
-                        <td>{{ signup.name }}</td>
-                        <td>{{ signup.contact }}</td>
-                        <td>{{ signup.participants }}</td>
-                        <td>{{ signup.markup }}</td>
-
-                        <!-- 其他報名者相關的表格內容 -->
-                    </tr>
+                        <tr>
+                            <td>{{ signup.name }}</td>
+                            <td>{{ signup.contact }}</td>
+                            <td>{{ signup.participants }}</td>
+                            <td>{{ signup.remark }}</td>
+                        </tr>
                 {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
