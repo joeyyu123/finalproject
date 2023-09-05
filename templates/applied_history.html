@@ -18,6 +18,9 @@
         </thead>
         <tbody>
             <!-- 遍歷用戶的報名紀錄 -->
+            {% if not signed_up_activities %}
+            <tr><td colspan="7">目前尚無報名紀錄~ <br>趕快報名參加吧!</td></tr>
+            {% else %}
             {% for activity in signed_up_activities %}
                 <tr>
                     <td class="text-middle">{{ activity.type }}</td>
@@ -26,12 +29,13 @@
                     <td class="text-middle">{{ activity.start_time }}~{{ activity.end_time }}</td>
                     <td class="text-middle">{{ activity.price }}</td>
                     <td class="text-middle">{{ activity.level }}</td>
-                    <td class="text-middle">{{ activity.signup_participants }}</td>  <!-- 使用報名紀錄中的參與人數 -->
+                    <td class="text-middle">{{ activity.signup_participants }}</td>
                     <td class="text-middle">
                         <button class="cancel-signup-button" data-id="{{ activity.id }}" data-participants="{{ activity.signup_participants }}" data-signup-id="{{activity.signup_id}}">取消報名</button>
                     </td>
                 </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>
