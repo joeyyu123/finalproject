@@ -30,8 +30,9 @@
                     <td class="text-middle">{{ activity.participants }}</td>
                     <td class="text-middle">{{ activity.applicants }}</td>
                     <td class="button">
-                        <a href="/view_signups/{{ activity.id }}">查看報名狀況</a>
-                        <button class="delete-button" data-id="{{ activity.id }}">刪除</button>
+                        <button class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">報名狀況</button><br>
+                        <button class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">編輯</button><br>
+                        <button class="btn btn-outline-danger" data-id="{{ activity.id }}">刪除</button>
                     </td>
                 </tr>
             {% endfor %}
