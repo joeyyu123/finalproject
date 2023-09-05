@@ -11,10 +11,10 @@ app = Flask(__name__)
 
 # 自動重新加載
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
 
 # SESSION
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
