@@ -19,6 +19,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # 配置 CS50 Library 使用 SQLite 
+# 在pythoneverywhere 須改用絕對路徑 db = SQL("sqlite:////home/joeyyu/mysite/database.db")
 db = SQL("sqlite:///database.db")
 
 # 要求登入
