@@ -14,6 +14,7 @@
                 <th class ="text-middle">費用</th>
                 <th class ="text-middle">程度</th>
                 <th class ="text-middle">需求人數</th>
+                <th class ="text-middle">目前報名人數</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
                     <td class="text-middle">{{ activity.price }}</td>
                     <td class="text-middle">{{ activity.level }}</td>
                     <td class="text-middle">{{ activity.participants }}</td>
+                    <td class="text-middle">{{ activity.applicants }}</td>
                     <td class="button">
                         <a href="/view_signups/{{ activity.id }}">查看報名狀況</a>
                         <button class="delete-button" data-id="{{ activity.id }}">刪除</button>

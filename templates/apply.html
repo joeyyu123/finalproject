@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <td>剩餘名額：</td>
-                <td>{{ activity.participants }}</td>
+                <td>{{ activity.participants-activity.applicants }}</td>
             </tr>
         
         </table>
@@ -54,7 +54,7 @@
 
         <div class="input-group mb-3">
             <label class="input-group-text" for="participants">人數：</label>
-            <input type="number" id="participants" name="participants" min="1" max={{ activity.participants }} required><br><br>
+            <input type="number" id="participants" name="participants" min="1" max={{ activity.participants-activity.applicants }} required><br><br>
         </div>
 
         <div class="input-group mb-3">

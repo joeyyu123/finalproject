@@ -31,7 +31,7 @@
                         <td class ="text-middle">{{activity.start_time}}~{{activity.end_time}}</td>
                         <td class ="text-middle">{{activity.price}}</td>
                         <td class ="text-middle">{{activity.level}}</td>
-                        <td class ="text-middle">{{activity.participants}}</td>
+                        <td class ="text-middle">{{activity.participants - activity.applicants}}</td>
                     </tr>
                 {% endfor %}
             </tbody>

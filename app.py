@@ -42,7 +42,7 @@ def after_request(response):
 # 主頁
 @app.route("/", methods=["GET", "POST"])
 def index():
-    activities = db.execute("SELECT * FROM activities WHERE date >= date('now') ORDER BY date DESC")
+    activities = db.execute("SELECT * FROM activities WHERE date >= date('now') ORDER BY date")
     return render_template("index.html",activities=activities)
 
 # 登入路由
@@ -223,18 +223,18 @@ def cancel_signup():
         if activity_id is None or participants is None:
             return jsonify({"message": "無效的請求"}), 400
         
-        activity = db.execute("SELECT participants FROM activities WHERE id = ?", activity_id)
+        activity = db.execute("SELECT applicants FROM activities WHERE id = ?", activity_id)
         if not activity:
             return jsonify({"message": "找不到該活動"}), 404
         
 
-        current_participants = activity[0]["participants"]
+        current_applicants = activity[0]["applicants"]
         
         # 根據報名人數進行修正
-        new_participants = int(current_participants) + int(participants)
+        new_applicants = int(current_applicants) - int(participants)
         
 
-        db.execute("UPDATE activities SET participants = ? WHERE id = ?", new_participants, activity_id)
+        db.execute("UPDATE activities SET applicants = ? WHERE id = ?", new_applicants, activity_id)
 
         #在取消報名成功後，刪除相關的報名紀錄
         signup_id = request.json.get("signup_id")
@@ -259,7 +259,9 @@ def apply(activity_id):
 
         # 獲取活動資訊
         activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)[0]
-        remaining_participants = int(activity["participants"]) - participants
+        applicants =  int(activity["applicants"]) + participants
+
+        remaining_participants = int(activity["participants"]) - applicants
 
         if remaining_participants < 0:
             flash("報名人數超過剩餘名額。")
@@ -269,7 +271,7 @@ def apply(activity_id):
 
         try:
             # 更新活動需求人數
-            db.execute("UPDATE activities SET participants = ? WHERE id = ?", remaining_participants, activity_id)
+            db.execute("UPDATE activities SET applicants = ? WHERE id = ?", applicants, activity_id)
 
             # 插入報名數據
             db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)", activity_id, name, contact, userid, participants, remark)
