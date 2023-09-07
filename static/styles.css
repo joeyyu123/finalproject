@@ -43,6 +43,11 @@ h1 {
     font-size: 48px;
 }
 
+.btn{
+    margin-top: 3px;
+}
+
+
 .container {
     margin-left: auto;
     margin-right: auto;
@@ -55,7 +60,7 @@ h1 {
 .container > table {
     margin-left: auto;
     margin-right: auto;
-    width: 35%;
+    
 }
 
 .header {
@@ -89,7 +94,7 @@ h1 {
 }
 
 button, input[type="submit"] {
-    background-color: #d9edff;
+    background-color: #45a4f7;
     border: 1px solid transparent;
     border-radius: 0.25rem;
     margin-top: 3px;
@@ -172,8 +177,18 @@ tbody tr:nth-of-type(odd) {
 }
 
 @media screen and (max-width: 768px) {
-    .container > table, .section, .input-group-text, input[type=text], input[type=submit], input[type=number],input[type=date], input[type=time], textarea[type="remark"] {
+    .input-group-text, input[type=text], input[type=submit], input[type=number],input[type=date], input[type=time], textarea[type="remark"] {
       width: 100%;
-      margin-top: 1.8;
+    }
+
+    table th,table td{
+        padding: 0rem;
+        word-wrap:break-word;
+    }
+
+    .container, .container > table, .section {
+        width:100%;
+        padding: 0%;
+        margin: auto;
     }
   }

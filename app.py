@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
@@ -212,6 +212,30 @@ def delete_activity():
 
     except Exception as e:
         return jsonify({"message": "删除失敗", "error": str(e)}), 500
+
+@app.route("/edit_activity/<int:activity_id>", methods=["GET","POST"])
+@login_required
+def edit_activity(activity_id):
+    if request.method == "POST":
+        userid = session.get("user_id")
+        type = request.form.get("sport")
+        date = request.form.get("date")
+        start_time = request.form.get("start_time")
+        end_time = request.form.get("end_time")
+        location = request.form.get("location")
+
+        price = request.form.get("price")
+        participants = request.form.get("participants")
+        remark = request.form.get("remark")
+        
+        db.execute("UPDATE activities SET type=?, date=?, start_time=?, end_time=?, location=?, price=?, participants=?, remark=?, user_id=? WHERE id=?"
+                                            , type, date, start_time, end_time, location, price, participants, remark, userid, activity_id )
+        flash("編輯完成！")
+        activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
+        return redirect(f"/view_signups/{activity_id}")
+        
+    activity = db.execute("SELECT * FROM activities WHERE id = ?", activity_id)
+    return render_template("edit_activity.html",activity=activity[0])
     
 # 取消報名
 @app.route("/cancel_signup", methods=["POST"])
@@ -275,7 +299,8 @@ def apply(activity_id):
             db.execute("UPDATE activities SET applicants = ? WHERE id = ?", applicants, activity_id)
 
             # 插入報名數據
-            db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)", activity_id, name, contact, userid, participants, remark)
+            db.execute("INSERT INTO signups (activity_id, name, contact, user_id, participants, remark) VALUES (?, ?, ?, ?, ?, ?)"
+                                            , activity_id, name, contact, userid, participants, remark)
 
             # 提交事務
             db.execute("COMMIT")

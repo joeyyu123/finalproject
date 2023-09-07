@@ -3,8 +3,8 @@
 {% block main %}
 
 <div>
-    <h3>活動資訊：</h3>
-    <div class="container">
+    <h3>活動資訊</h3>
+    <div class="container ">
         <table>
             <tbody>
                 <tr>
@@ -23,11 +23,23 @@
                     <td>時間：</td>
                     <td>{{ activity.start_time }} - {{ activity.end_time }}</td>
                 </tr>
+                <tr>
+                    <td>需求人數：</td>
+                    <td>{{ activity.participants }}</td>
+                </tr>
+                <tr>
+                    <td>目前報名人數：</td>
+                    <td>{{ activity.applicants }}</td>
+                </tr>
+                <tr>
+                    <td>備註：</td>
+                    <td>{{ activity.remark }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <h3>已報名參與者：</h3>
+    <h3>已報名參與者</h3>
     
     <div class="section">
         <table class="table">

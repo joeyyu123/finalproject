@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div>
+    <h3>編輯活動資訊</h3>
+    <form action="/edit_activity/{{activity.id}}" method="post" >
+        <div class="container ">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>活動類型：</td>
+                        <td><select class="form-select" id="sport" name="sport" required>
+                            <option value="" disabled>choose...</option>
+                            <option value="足球" {% if activity.type == '足球' %}selected{% endif %}>足球</option>
+                            <option value="籃球" {% if activity.type == '籃球' %}selected{% endif %}>籃球</option>
+                            <option value="排球" {% if activity.type == '排球' %}selected{% endif %}>排球</option>
+                            <option value="網球" {% if activity.type == '網球' %}selected{% endif %}>網球</option>
+                            <option value="羽球" {% if activity.type == '羽球' %}selected{% endif %}>羽球</option>
+                            <option value="棒球" {% if activity.type == '棒球' %}selected{% endif %}>棒球</option>
+            
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>地點：</td>
+                        <td><input type="text" id="location" name="location" value="{{ activity.location }}" autocomplete required></td>
+                    </tr>
+                    <tr>
+                        <td>日期：</td>
+                        <td><input type="date" id="date" name="date" min=today value="{{ activity.date }}" required ></td>
+                    </tr>
+                    <tr>
+                        <td>開始時間：</td>
+                        <td><input type="time" id="start_time" name="start_time" value="{{ activity.start_time }}" required></td>
+                    </tr>
+                    <tr>
+                        <td>結束時間：</td>
+                        <td><input type="time" id="end_time" name="end_time" value="{{ activity.end_time }}" required></td>
+                    </tr>
+                    <tr>
+                        <td>費用：</td>
+                        <td><input type="text" id="price" name="price" value="{{ activity.price}}" required></td>
+                    </tr>
+                    <tr>
+                        <td>需求人數：</td>
+                        <td><input type="number" id="participants" name="participants" min="1" value="{{ activity.participants }}" required></td>
+                    </tr>
+                    <tr>
+                        <td>備註：</td>
+                        <td><textarea type="remark" id="location" name="remark" value="activity.remark" ></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="編輯完成" class="btn btn-primary">
+        </div>
+    </form>
+
+
+{% endblock %}
