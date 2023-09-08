@@ -18,6 +18,10 @@
             </tr>
         </thead>
         <tbody>
+            <!-- 尚無紀錄 -->
+            {% if not created_activities %}
+            <tr><td colspan="8">目前尚無開團紀錄~ <br>趕快糾朋友一起運動吧!</td></tr>
+            {% else %}
             <!-- 遍歷用戶的開團紀錄 -->
             {% for activity in created_activities %}
                 <tr>
@@ -30,12 +34,13 @@
                     <td class="text-middle">{{ activity.participants }}</td>
                     <td class="text-middle">{{ activity.applicants }}</td>
                     <td class="text-middle">
-                        <a class="btn btn-outline-primary" href="/view_signups/{{ activity.id }}">報名狀況</a>
-                        <a class="btn btn-outline-primary" href="/edit_activity/{{ activity.id }}">編輯</a>
+                        <a class="btn btn-outline-primary" href="/signups/view_signups/{{ activity.id }}">報名狀況</a>
+                        <a class="btn btn-outline-primary" href="/activities/edit_activity/{{ activity.id }}">編輯</a>
                         <button class="btn btn-outline-danger" data-id="{{ activity.id }}">刪除</button>
                     </td>
                 </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>
@@ -59,7 +64,7 @@
         
 
         function deleteActivity(activityId) {
-            const url = "/delete_activity"; // Flask 路由
+            const url = "/activities/delete_activity"; // Flask 路由
             const data = { activity_id: activityId };
 
             fetch(url, {

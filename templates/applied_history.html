@@ -58,7 +58,7 @@
             });
         
             function cancelSignup(activityId, participants, signup_Id) {
-                const url = "/cancel_signup";
+                const url = "/signups/cancel_signup";
                 const data = { activity_id: activityId, participants: participants, signup_id: signup_Id }; // 傳送報名人數到後端
         
                 fetch(url, {
