@@ -7,6 +7,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+# 在pythoneverywhere 須改用絕對路徑
+#db = SQL("sqlite:////home/joeyyu/mysite/database.db")
 db = SQL("sqlite:///database.db")  # 配置資料庫連接
 
 # 設置其他全局配置，例如路由前綴等

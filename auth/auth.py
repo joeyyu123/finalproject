@@ -37,7 +37,7 @@ def login():
         session["user_id"] = rows[0]["id"]
 
         # 重新整理網頁
-        return redirect("/")
+        return redirect("/activities/find_activity")
 
     else:
         return render_template("login.html")
